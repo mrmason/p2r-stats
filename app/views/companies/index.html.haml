@@ -1,0 +1,63 @@
+- c = Company.clean_data
+
+%h1 Virgin Business Pitch2Rich - Grow Company Votes
+
+%p= "Last Updated at #{CompanyInfo.last.created_at}"
+
+%table
+
+  %tr
+    %th #
+    %th Name
+    %th{:colspan=> "8"} History
+
+  %tr
+    %th 
+    %th 
+    
+    - days = Array.new
+    - c.first[1][4].each do |day,votes|
+      - unless !votes
+        - days << day
+    
+    - days.reverse!
+        
+    - days.each do |day|
+      %th= day
+
+  - n = 1
+  - c.each do |company,ci|
+  
+    - if n == 11 || n == 51 || n == 4
+      %tr
+        %td{:colspan=> "11"}
+          %hr
+    
+    %tr
+      %td=n
+      %td
+        - if company.name == "Krystal Hosting"
+          %strong{:style=>"color:red;"}= link_to company.name, "http://virginmediabusiness.co.uk#{company.link}", {:style=>"color:red;"}
+        - else
+          = link_to company.name, "http://virginmediabusiness.co.uk#{company.link}"
+    
+      - days.each do |day|
+        - unless !ci[4][day]
+          %td
+            = ci[4][day]
+            - if !ci[4][days[days.index(day) + 1]].nil? && ci[4][days[days.index(day) + 1]] != false
+              - diff = ci[4][days[days.index(day)]] - ci[4][days[days.index(day) + 1]]
+              = "(#{diff}"
+              - case diff 
+                - when 300..5000
+                  = image_tag('up.png')
+                  = image_tag('up.png')
+                  = image_tag('up.png')
+                - when 150..299
+                  = image_tag('up.png')
+                  = image_tag('up.png')
+                - when 50..149
+                  = image_tag('up.png')
+              = ")"
+    
+      - n = n + 1  
